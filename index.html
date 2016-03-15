@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="container straighten">
+    <div id="popup">
+        <div class="marker" id="pitcher"></div>
+        <div class="marker" id="firstbase"></div>
+        <div class="marker" id="leftfield"></div>
+        <img src="https://c2.staticflickr.com/4/3123/2404627233_148080d1e6_b.jpg" />
+    </div>
+</div>
+
+<div class="textbox">
+    <div class="popuptitle">Baseball field</div>
+    This is a baseball field and it has lots of different positions. <br /> <br />Click on a marker to learn more about each position.
+</div>
+
+
+<style>
+.container{
+    width: 60%;
+    display: inline-block;
+    position: relative;
+}
+.textbox {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    line-height: 1.5em;
+}
+.container img {    
+    width: 100%;
+}
+.marker{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: yellow;
+    border: 2px solid white;
+    border-radius: 50%;
+    transition: background-color 0.5s ease;
+    cursor: pointer;
+}
+.marker:hover {
+    background-color: red;
+}
+#pitcher {
+    top:54%;
+    left: 50%;
+}
+#leftfield {
+    top:38%;
+    left: 11%;
+}
+#firstbase {
+    top: 49%;
+    right: 1%;
+}
+.straighten:after{
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden
+}
+
+#popup {
+    position:relative;
+}
+.hoverbox {
+    position:absolute; 
+    padding:0.5em; 
+    background:#FFF; 
+    box-shadow:1px 1px 8px rgba(0,0,0,.4); 
+    z-index:300; 
+    font-family:'Roboto', Arial, sans-serif; 
+    line-height:1.3em; 
+    min-width:100px; 
+    max-width:200px;
+}
+.popuptitle {
+    color: #C72428;
+    font-family:'Roboto', Arial, sans-serif;
+    letter-spacing: 0.01em;
+    font-size:18px; 
+    font-weight:700;
+    clear:both;
+}
+
+
+@media only screen and (max-width: 700px) {
+.container{
+	width:100%;
+}
+.textbox{
+	width:90%;
+}
+
+	
+	
+}
+
+
+</style>
+
+<script>
+$(document).ready(function() {
+
+var data = 
+[{"id":"firstbase","name":"First base", "description":"First base, or 1B, is the first of four stations on a baseball diamond which must be touched in succession by a baserunner in order to score a run for that player's team. A first baseman is the player on the team playing defense who fields the area nearest first base, and is responsible for the majority of plays made at that base."},
+{"id":"pitcher","name":"Pitchers mound", "description":"In baseball, the pitcher is the player who throws the baseball from the pitcher's mound toward the catcher to begin each play, with the goal of retiring a batter, who attempts to either make contact with the pitched ball or draw a walk."},
+{"id":"leftfield","name":"Leftfield", "description":"In baseball, a left fielder (LF) is an outfielder who plays defense in left field. Left field is the area of the outfield to the left of a person standing at home plate and facing towards the pitcher's mound."}];
+
+
+$(".marker").click(function(){
+    $('.textbox').empty();
+    for (var i=0; i<data.length; i++) {
+    if (this.id == data[i].id) {
+        $(".textbox").append('<div class="popuptitle">'+data[i].name+'</div>' + data[i].description);
+    } 
+    } 
+});
+
+
+var pos, thex, they;
+
+$(".marker").mouseover(function(e){
+    $(".hoverbox").remove();
+
+    // POSITIONING THE POP UP
+    if (navigator.userAgent.indexOf("Firefox")!=-1){
+        
+        pos = $("#popup").offset()
+        thex = e.pageX - pos.left + 10;
+        they = e.pageY - pos.top + 0;
+        if (thex > $("#popup").width() - 150) { thex = $("#popup").width() - 150 };
+        if (they > $("#popup").height() - 100) { they = $("#popup").height() - 100 };
+    } else {
+
+        pos = $("#popup").offset()
+        thex = event.pageX - pos.left + 10;
+        they = event.pageY - pos.top + 0;
+        if (thex > $("#popup").width() - 150) { thex = $("#popup").width() - 150 };
+        if (they > $("#popup").height() - 100) { they = $("#popup").height() - 100 };
+    }
+
+    // APPENDING TEXT TO THE POP UP
+    for (var i=0; i<data.length; i++) {
+    if (this.id == data[i].id) {
+    $("#popup").append('<div class="hoverbox" style="top:'+they+'px; left:'+thex+'px;"><div class="popuptitle">'+data[i].name+'</div></div>');
+    } 
+    
+
+    }   
+});
+
+$(".marker").mouseleave(function(){
+    $(".hoverbox").remove();
+});
+
+
+});//doc ready
+</script>
+
+</body>
+</html>
+
+
+
